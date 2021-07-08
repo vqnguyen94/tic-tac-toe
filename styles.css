@@ -4,20 +4,26 @@ html {
     font-family: 'Carter One', cursive;
 }
 
+h1{
+    position: relative;
+    font-family: 'Carter One', cursive;
+    font-size: 6em;
+    text-align: center;
+    top: 20vh;
+}
 
-/* Contains both player info and board */
+h2 {
+    text-align: center;
+}
+
+/* Contains both player cards and board */
 #board-container {
-    /* background: red; */
     height: 50vh;  
     display: flex;
-    /* align-items: center; */
     justify-content: space-around;
     flex-direction: row;
     align-items: center;
-    /* border: solid 5px black; */
-    
 }
-
 
 /* Game board */
 #board {
@@ -42,13 +48,10 @@ html {
     justify-content: start;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10%;
-    /* background: rgba(1, 69, 240, 0.5); */
-   
 }
 
 /* Board squares */
 .square {
-    /* border: solid 2px black; */
     background: white;
     display: flex;
     align-items: center;
@@ -84,32 +87,25 @@ html {
     }
 }
 
-
 /* Div used to display results at bottom of player info */
 .result {
-    /* background: blue; */
     height: 10%;
     width: 100%;
     font-size: 2em;
     text-align: center; 
     color:gold;
     text-shadow: 1px 1px gray;
-    
 }
 
 /* Adds styling for winning squares */
 .winning-square{ 
     text-shadow: 2px 2px 1px black;  
-}
-
-/* Makes winning squares blink */
-.highlight {
     animation-duration: 1s;
     animation-name: blink;
     animation-iteration-count: infinite;
 }
 
-/* animation for winning squares */
+/* Animation for winning squares */
 @keyframes blink {
     20% {
         color: gold;
@@ -120,10 +116,9 @@ html {
     animation-duration: 1.5s;
     animation-name: shake;
     animation-iteration-count: 1;
-    /* animation-fill-mode: forwards; */
 }
 
-/* Animation for crown */
+/* Animation for draw */
 @keyframes shake {
     0% {
         transform: scale(1);         
@@ -149,7 +144,6 @@ html {
     pointer-events: none;
 }
 
-
 /* Indicates current player making a turn */
 .current-player{
     border: 0.8em solid rgb(89, 136, 255) !important;
@@ -169,6 +163,7 @@ html {
     color: rgba(0, 0, 0, 0.1);
 }
 
+
 h1{
     position: relative;
     font-family: 'Carter One', cursive;
@@ -180,7 +175,6 @@ h1{
 h2 {
     text-align: center;
 }
-
 
 .fade {
     animation-duration: 1s;
@@ -208,9 +202,6 @@ button {
     font-size: 1.2em;
 }
 
-h2 {
-    text-align: center;
-}
 
 #form {
     top: 15vh;
@@ -219,11 +210,11 @@ h2 {
     justify-content: center;
     align-items: center;
     position: relative;
-    /* background: blue; */
     font-size: 1.5em;
     text-align: center;
 }
 
+/* Animation for title */
 @keyframes float {
     0% {
         top: 20vh;
@@ -232,16 +223,17 @@ h2 {
         opacity: 0%;
         display:none;
         top: -5vh;
-        font-size: 3em;
-        
+        font-size: 3em;    
     }
 }
 
-#play-again{
+/* Play again button */
+#play-container{
     display: flex;
     justify-content: center;
 }
 
+/* Radio button styling */
 input[type=radio] {
     display:none; 
     margin:10px;
@@ -267,6 +259,7 @@ input[type=radio]:checked + label {
     border: 0.3em solid rgb(89, 136, 255); 
 }
 
+/* Play/submit button for form */
 #play{
     margin-top: 1em;
     width: 100%;

@@ -49,20 +49,19 @@ const gameBoard = (() => {
     }
 
     function markerPreview(){
-        
+        //Only show a preview of the marker if square is not occupied
         if(this.textContent == ""){
             this.textContent = gameController.getCurrentPlayer().getMarker();
             this.classList.add('preview');
-        }
-        
+        }  
     }
 
     function removeMarkerPreview(){
+        //Remove the preview after leaving the square
         if(this.classList.contains('preview')){
             this.textContent = "";
             this.classList.remove('preview');
-        }
-        
+        }       
     }
 
     function enableBoardClick(){
@@ -82,16 +81,17 @@ const gameBoard = (() => {
     }
 
     function placeMarker(square){
-        console.log(square);
         let position = square.getAttribute('id');
         
-        if(!board[position]){//only if empty
+        //If square is not occupied
+        if(!board[position]){
             let marker = gameController.getCurrentPlayer().getMarker();
             board[position] = marker;
             square.textContent = board[position]; 
             square.classList.remove('preview');
             return true;   
         } 
+        //Not a valid move, square was already occupied
         else{
             return false;
         }
@@ -99,13 +99,16 @@ const gameBoard = (() => {
 
     function winConditionFound(){
         for(let i = 0; i < winConditions.length; i++){
+            //If all 3 squares have the same marker, and not empty
             if( board[ winConditions[i][0] ] == board[ winConditions[i][1] ] && 
                 board[ winConditions[i][0] ] == board[ winConditions[i][2] ] && 
                 board[ winConditions[i][0] ] != "" ){
+                    //Retain the position of the winning squares
                     winningSquares.push(winConditions[i]);
                     return true;
             }
         }
+        //No win found
         return false;
     }
 
@@ -129,23 +132,19 @@ const gameBoard = (() => {
     };
 })();
 
-
+//Controls flow of the game
 const gameController = (() => {
     const form = document.querySelector("form");
     const mainContainer = document.querySelector("#main");
-
     const restart = document.querySelector("#restart");
     const userStart = document.querySelector('#user-first');
     const computerStart = document.querySelector('#computer-first');
     const choiceMessage = document.querySelector('#choice-msg');
-    const playAgain = document.querySelector('#play-again');
-    
+    const playAgain = document.querySelector('#play-again'); 
     const userDisplay = document.querySelector("#user");
     const computerDisplay = document.querySelector("#computer");
     
     let user, computer, currentPlayer;
-
-
     let turnNumber = 0;
     
 
@@ -171,103 +170,103 @@ const gameController = (() => {
     }
 
     function gameOverCheck(){
+        //Final turn and no win found means it's a draw
         if(turnNumber == 9 && !gameBoard.winConditionFound()){
-            //resultsssssssssssss-----------------------------
-            // resultDisplay.textContent = "It's a draw!";
             toggleDrawAnimation();
         }
+        //Wins can only happen after turn 5
         else if(turnNumber >= 5 && gameBoard.winConditionFound()){
-            //resultsssssssssssss-----------------------------
-            // resultDisplay.textContent = "Game! The winner is: " + currentPlayer.getName();
             toggleWinningSquaresHighlight();
             toggleWinnerAnimation();
-            //gameBoard.resetWinningSquares();
         }
+        //No win
         else{
             return false;
         }
+        //Disable board once game is over
         gameBoard.disableBoardClick();
         return true;
     }
 
     function toggleWinningSquaresHighlight(){
         const win = gameBoard.getWinningSquares();
+        
+        //Add winning square animation
         boardSquares[win[0][0]].classList.toggle('winning-square');
         boardSquares[win[0][1]].classList.toggle('winning-square');
         boardSquares[win[0][2]].classList.toggle('winning-square');
-        
-
-        boardSquares[win[0][0]].classList.toggle('highlight');
-        boardSquares[win[0][1]].classList.toggle('highlight');
-        boardSquares[win[0][2]].classList.toggle('highlight');
     }
 
-
-
+    //User's turn
     function doTurn(){
         let validTurn = gameBoard.placeMarker(this);
         
         if(validTurn){
             updateTurnNumber();
             if(gameOverCheck()){
-                //show play again button
+                //Show Play Again button
                 playAgain.classList.remove('hidden');
-                //hide the restart
+                //Hide restart button
                 restart.classList.add('hidden');
-                //toggleWinnerAnimation();
                 return;
             }
+            //Disable board to prevent from user making a move during computers turn
             gameBoard.disableBoardClick();
             changeCurrentPlayer();
+            //Prevents computer from attempting a move if there are no spaces left on board
             if(turnNumber < 9){
-                setTimeout(doComputerTurn, 1000) //do comp move after 1 sec
+                //Do computer turn after 1 sec
+                setTimeout(doComputerTurn, 1000) 
             }   
         }
     }
 
+    //Computer turn
     function doComputerTurn(){
         let randomSquare = boardSquares[Math.floor(Math.random()*boardSquares.length)];
 
+        //Keep generating a random square until an empty square is found
         while(!gameBoard.placeMarker(randomSquare)){
             randomSquare = boardSquares[Math.floor(Math.random()*boardSquares.length)];
         }
         updateTurnNumber();
         if(gameOverCheck()){
-            //show play again button
             playAgain.classList.remove('hidden');
-            //hide the restart
             restart.classList.add('hidden');
-            //toggleWinnerAnimation();
             return;
         }
         changeCurrentPlayer();
+        //Reenable board for user to complete their turn
         gameBoard.enableBoardClick();
     }
 
+    //Restarts the game taking into consideration the game is restarted before a game is over, after a win, or after a draw
     function restartGame(){
+        //Toggle off the stylings if a draw happened
         if(turnNumber == 9 && !gameBoard.winConditionFound()){
             toggleDrawAnimation();
         }
+
         gameBoard.resetBoard();
         gameBoard.disableBoardClick();
 
         turnNumber = 0;
         
-        
+        //Remove stylings of whichever player was indicated as winner
         userDisplay.classList.remove('current-player'); 
         computerDisplay.classList.remove('current-player');
 
-
+        //Toggle off the stylings if a win happened
         if(gameBoard.getWinningSquares().length != 0){
             toggleWinningSquaresHighlight();
             toggleWinnerAnimation();
             gameBoard.resetWinningSquares();
         }
-        
-        
+     
         showButtons();
     }
 
+    //If user decides to go first
     function userFirstMove(){
         restartGame();
         currentPlayer = user;
@@ -276,6 +275,7 @@ const gameController = (() => {
         hideButtons();
     }
 
+    //If computer is chosen to go first
     function computerFirstMove(){
         restartGame();
         currentPlayer = computer;
@@ -285,29 +285,35 @@ const gameController = (() => {
     }
 
     function hideButtons(){
-        //hide all intro buttons, show restart during gameplay
+        //Hide all intro buttons
         userStart.classList.add('hidden');
         computerStart.classList.add('hidden');
         choiceMessage.classList.add('hidden');
         choiceMessage.classList.remove('fade');
+        //Allows the restart button to be seen during the game
         restart.classList.remove('hidden');
     }
 
     function showButtons(){
-        //show all intro buttons, hides play again and restart to simulate beginning of game
+        //Show all intro buttons, hides play again and restart to simulate beginning of game
         userStart.classList.remove('hidden');
         computerStart.classList.remove('hidden');
         choiceMessage.classList.remove('hidden');
         choiceMessage.classList.add('fade');
+
         playAgain.classList.add('hidden');
         restart.classList.add('hidden');
     }
 
+    //Executes when form is submitted
     function setPlayerInfo(e){
         e.preventDefault();
 
         let marker;
+        //Get name entered by user
         let name = document.getElementById("name").value;
+
+        //Determine which marker the user chose and assigns remaining marker to computer
         if(document.getElementById("x").checked){
             marker = "X";
             computer = Player("Computer", "O");
@@ -316,6 +322,7 @@ const gameController = (() => {
             marker = "O";
             computer = Player("Computer", "X");
         }
+        //Create user and player card
         user = Player(name, marker);
         document.getElementById("user-name").textContent = name;
         userStart.textContent = name + " starts";        
@@ -326,48 +333,49 @@ const gameController = (() => {
     }
 
     function introAnimation(){
-        //unhide main container with main stuff inside
-        //attach fade animation to main container
+        //Remove title with an animation
         document.querySelector("h1").style.animation = "float 1s 1"; 
-        document.querySelector("h1").style.animationFillMode = "forwards";
+        document.querySelector("h1").style.animationFillMode = "forwards";       
         
-        
+        //Unhide main container
         mainContainer.classList.toggle("hidden");
         mainContainer.classList.toggle("fade"); 
         showButtons();      
     }
 
+    //Executes when a winner is found
     function toggleWinnerAnimation(){
-        
+        //Remove current player indicators
         userDisplay.classList.remove('current-player'); 
         computerDisplay.classList.remove('current-player');
 
-        //computer wins
+        //Computer wins
         if(currentPlayer.getName() == "Computer"){
             document.querySelector("#computer-win").textContent = "👑";
-            document.querySelector("#computer-win").classList.toggle('hidden'); //remove -> toggle
+            document.querySelector("#computer-win").classList.toggle('hidden'); 
             document.querySelector("#computer-win").classList.toggle('crown');
             document.querySelector("#computer-msg").textContent = "Winner!";
             document.querySelector("#computer-msg").classList.toggle('hidden'); 
         }
-        //user wins
+        //User wins
         else{
-            //crown animation
+            //Crown animation
             document.querySelector("#user-win").textContent = "👑";
             document.querySelector("#user-win").classList.toggle('hidden'); 
             document.querySelector("#user-win").classList.toggle('crown'); 
-
-            //result display at bottom of player info
+            //Result display at bottom of player card
             document.querySelector("#user-msg").textContent = "Winner!";
             document.querySelector("#user-msg").classList.toggle('hidden'); 
         }
     }
 
+    //Executes when a draw occurs
     function toggleDrawAnimation(){
-        
+        //Remove current player indicators
         userDisplay.classList.remove('current-player'); 
         computerDisplay.classList.remove('current-player');
 
+        //Add the draw animation and message to both player cards
         document.querySelector("#computer-win").textContent = "🤝";
         document.querySelector("#computer-win").classList.toggle('hidden'); 
         document.querySelector("#computer-win").classList.toggle('draw');
@@ -377,17 +385,15 @@ const gameController = (() => {
         document.querySelector("#user-win").textContent = "🤝";
         document.querySelector("#user-win").classList.toggle('hidden'); 
         document.querySelector("#user-win").classList.toggle('draw'); 
-
-        //result display at bottom of player info
         document.querySelector("#user-msg").textContent = "It's a draw!";
         document.querySelector("#user-msg").classList.toggle('hidden'); 
-   
     }
 
     gameBoard.createBoard();
-    //disable until they choose who starts
+    //Disable until they choose who starts
     gameBoard.disableBoardClick();
 
+    //Occurs after squares are made in "createBoard"
     const boardSquares = document.querySelectorAll(".square");
     for (let i = 0; i < boardSquares.length; i++) {
         boardSquares[i].addEventListener('click', doTurn);     
@@ -395,22 +401,15 @@ const gameController = (() => {
 
     restart.addEventListener("click", restartGame);
     userStart.addEventListener("click", userFirstMove);
-    computerStart.addEventListener("click", computerFirstMove);
-    
+    computerStart.addEventListener("click", computerFirstMove); 
     playAgain.addEventListener("click", restartGame);
+    form.addEventListener("submit", setPlayerInfo);
     
     mainContainer.classList.toggle("hidden");
     
-
-    form.addEventListener("submit", setPlayerInfo);
-
-
-
     return {
         getCurrentPlayer
     };
 
 })();
 
-//dont add hvoer to squares alreayd occupied
-//make specific squarehover class dinstinct from squares, then remove after marker is palced

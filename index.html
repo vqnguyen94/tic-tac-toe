@@ -9,25 +9,25 @@
         <h1>Tic-Tac-Toe</h1>
         <div id="form" class="fade">    
             <form>
+                <!-- Name input -->
                 <label for="name">Enter a name:</label><br>
                 <input type="text" id="name" name="name" placeholder="Viet" required><br>
-
+                <!-- Marker select -->
                 <p>Select a marker:</p>
                 <input type="radio" id="x" name="marker" value="x" required>
                 <label for="x" class="radio">X</label>
                 <input type="radio" id="o" name="marker" value="o" required>
                 <label for="o" class="radio">O</label><br>
-
+                <!-- Play/submit button -->
                 <button type="submit" id="play">Play</button>
-            </form>
-            
+            </form>    
         </div>
 
         <div id="main">
             <button type="button" id="restart">Restart</button> 
-    
+            <!-- Contains player cards and board -->
             <div id="board-container">
-                
+                <!-- User -->
                 <div id="user" class="players">
                     <div id="user-win" class="winner hidden"></div>
                     <h2 id="user-name"></h2>
@@ -35,25 +35,24 @@
                     <div id="user-msg" class="winner hidden result"></div>
                 </div>
 
+                <!-- Game board -->
                 <div id="board"></div>
 
+                <!-- Computer -->
                 <div id="computer" class="players">
                     <div id="computer-win" class="winner hidden"></div>
                     <h2 id="computer-name">Computer</h2>
                     <button type="button" id="computer-first">Computer starts</button> 
                     <div id="computer-msg" class="winner hidden result"></div>
                 </div>
-                
             </div>
 
             <h2 id="choice-msg" class="fade">Who will go first?</h2> 
-            <div id="play-again">
-                <button type="button">Play again</button>
-            </div>
-            
+            <!-- Play again button -->
+            <div id="play-container">
+                <button type="button" id="play-again">Play again</button>
+            </div>            
         </div>
- 
     </body>
-
     <script src="script.js"></script>
 </html>
