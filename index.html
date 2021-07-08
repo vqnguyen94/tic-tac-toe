@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tic-tac-toe</title>
+        <meta charset="UTF-8"/>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <h1>Tic-Tac-Toe</h1>
+        <div id="form" class="fade">    
+            <form>
+                <label for="name">Enter a name:</label><br>
+                <input type="text" id="name" name="name" placeholder="Viet" required><br>
+
+                <p>Select a marker:</p>
+                <input type="radio" id="x" name="marker" value="x" required>
+                <label for="x" class="radio">X</label>
+                <input type="radio" id="o" name="marker" value="o" required>
+                <label for="o" class="radio">O</label><br>
+
+                <button type="submit" id="play">Play</button>
+            </form>
+            
+        </div>
+
+        <div id="main">
+            <button type="button" id="restart">Restart</button> 
+    
+            <div id="board-container">
+                
+                <div id="user" class="players">
+                    <div id="user-win" class="winner hidden"></div>
+                    <h2 id="user-name"></h2>
+                    <button type="button" id="user-first"></button>
+                    <div id="user-msg" class="winner hidden result"></div>
+                </div>
+
+                <div id="board"></div>
+
+                <div id="computer" class="players">
+                    <div id="computer-win" class="winner hidden"></div>
+                    <h2 id="computer-name">Computer</h2>
+                    <button type="button" id="computer-first">Computer starts</button> 
+                    <div id="computer-msg" class="winner hidden result"></div>
+                </div>
+                
+            </div>
+
+            <h2 id="choice-msg" class="fade">Who will go first?</h2> 
+            <div id="play-again">
+                <button type="button">Play again</button>
+            </div>
+            
+        </div>
+ 
+    </body>
+
+    <script src="script.js"></script>
+</html>

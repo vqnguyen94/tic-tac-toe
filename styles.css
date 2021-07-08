@@ -1,0 +1,273 @@
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&family=Nothing+You+Could+Do&family=Permanent+Marker&display=swap');
+
+html {
+    font-family: 'Carter One', cursive;
+}
+
+
+/* Contains both player info and board */
+#board-container {
+    /* background: red; */
+    height: 50vh;  
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    /* border: solid 5px black; */
+    
+}
+
+
+/* Game board */
+#board {
+    background: rgb(197, 197, 197);
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 40%;
+    height: 100%;
+    grid-gap: 10px; 
+}
+
+/* Player info  */
+.players {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    height: 80%;
+    border: 0.8em solid transparent;
+    justify-content: start;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10%;
+    /* background: rgba(1, 69, 240, 0.5); */
+   
+}
+
+/* Board squares */
+.square {
+    /* border: solid 2px black; */
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6em;
+    transition: box-shadow 0.4s;
+    font-family: 'Permanent Marker', cursive;
+}
+
+
+/* Div used to display crown for winner at top of player info */
+.winner {
+    height: 25%;
+    width: 100%;
+    font-size: 7em;
+    text-align: center;    
+}
+
+.crown {
+    animation-duration: 0.5s;
+    animation-name: shrink;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+/* Animation for crown */
+@keyframes shrink {
+    0% {
+        transform: scale(4);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* Div used to display results at bottom of player info */
+.result {
+    /* background: blue; */
+    height: 10%;
+    width: 100%;
+    font-size: 2em;
+    text-align: center; 
+    color:gold;
+    text-shadow: 1px 1px gray;
+    
+}
+
+/* Adds styling for winning squares */
+.winning-square{ 
+    text-shadow: 2px 2px 1px black;  
+}
+
+/* Makes winning squares blink */
+.highlight {
+    animation-duration: 1s;
+    animation-name: blink;
+    animation-iteration-count: infinite;
+}
+
+/* animation for winning squares */
+@keyframes blink {
+    20% {
+        color: gold;
+    }
+}
+
+.draw {
+    animation-duration: 1.5s;
+    animation-name: shake;
+    animation-iteration-count: 1;
+    /* animation-fill-mode: forwards; */
+}
+
+/* Animation for crown */
+@keyframes shake {
+    0% {
+        transform: scale(1);         
+    }
+    40%{
+        transform: scale(2);
+    }
+    50%{
+        transform: rotate(40deg) scale(2);
+    }
+    70%{
+        transform: rotate(-40deg) scale(2);
+    }
+    80%{
+        transform: scale(2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.unclickable {
+    pointer-events: none;
+}
+
+
+/* Indicates current player making a turn */
+.current-player{
+    border: 0.8em solid rgb(89, 136, 255) !important;
+    animation-duration: 0.5s;
+    animation-name: fade;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+
+/* Hover effect to preview marker over board squares */
+.preview {
+    color: rgba(0, 0, 0, 0.1);
+}
+
+h1{
+    position: relative;
+    font-family: 'Carter One', cursive;
+    font-size: 6em;
+    text-align: center;
+    top: 20vh;
+}
+
+h2 {
+    text-align: center;
+}
+
+
+.fade {
+    animation-duration: 1s;
+    animation-name: fade;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#user-name, #computer-name, #choice-msg {
+    font-family: 'Nothing You Could Do', cursive;
+    font-size: 3.5em;
+}
+
+button {
+    font-family: 'Carter One', cursive;
+    font-size: 1.2em;
+}
+
+h2 {
+    text-align: center;
+}
+
+#form {
+    top: 15vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* background: blue; */
+    font-size: 1.5em;
+    text-align: center;
+}
+
+@keyframes float {
+    0% {
+        top: 20vh;
+    }
+    100% {
+        opacity: 0%;
+        display:none;
+        top: -5vh;
+        font-size: 3em;
+        
+    }
+}
+
+#play-again{
+    display: flex;
+    justify-content: center;
+}
+
+input[type=radio] {
+    display:none; 
+    margin:10px;
+}
+
+.radio {
+    border: 0.3em solid transparent;
+    margin: 0em 0.1em;
+    display:inline-block;
+    padding: 0.5em 0.5em;
+    height: 100%;
+    width: 20%;
+    border-radius: 25%;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.radio:hover{
+    transform: scale(1.1); 
+}
+
+input[type=radio]:checked + label { 
+    border: 0.3em solid rgb(89, 136, 255); 
+}
+
+#play{
+    margin-top: 1em;
+    width: 100%;
+}
